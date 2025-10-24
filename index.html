@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Caméra GoPiGo</title>
+</head>
+
+<body>
+    <button id="allowCameraButton">Démarrer la caméra</button>
+    <video id="video"></video>
+    <script>
+        'use strict';
+
+        document.getElementById('allowCameraButton').addEventListener('click', () => {
+            navigator.mediaDevices
+                .getUserMedia({ 'video': true, 'audio': false })
+                .then(stream => {
+                    const video = document.getElementById('video');
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+</body>
+
+</html>
