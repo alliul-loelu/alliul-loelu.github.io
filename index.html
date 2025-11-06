@@ -1,30 +1,53 @@
 <!DOCTYPE html>
 <html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Robot</title>
+		<!-- Il n’y a pas de favicon. La ligne suivante évite que les nagivateurs demandent /favicon.ico et reçoivent une erreur 404 à chaque chargement de la page. -->
+		<link rel="icon" href="data:,">
+		<script src="index.js" defer></script>
+		<style>
+			body {
+				height: 100vh;
+				margin: 0;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Caméra GoPiGo</title>
-</head>
+				font-family: sans-serif;
+			}
+			.panel {
+				background-color: lightgrey;
 
-<body>
-    <button id="allowCameraButton">Démarrer la caméra</button>
-    <video id="video"></video>
-    <script>
-        'use strict';
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
 
-        document.getElementById('allowCameraButton').addEventListener('click', () => {
-            navigator.mediaDevices
-                .getUserMedia({ 'video': true, 'audio': false })
-                .then(stream => {
-                    const video = document.getElementById('video');
-                    video.srcObject = stream;
-                    video.play();
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        });
-    </script>
-</body>
+				text-align: center;
 
+				box-sizing: border-box;
+				height: 100%;
+			}
+			.panel > p {
+				margin-top: 0;
+				width: min(40em, 60%);
+			}
+			.error {
+				background-color: firebrick;
+			}
+		</style>
+	</head>
+	<body>
+		<article id="allow-camera-panel" class="panel">
+			<h2>Bonjour !</h2>
+			<p>Nous avons besoin d’accéder à votre caméra pour détecter les couleurs devant le robot.</p>
+			<button id="allow-camera-button">Pas de souci !</button>
+		</article>
+
+		<template id="error-message-panel">
+			<article class="panel error">
+				<p id="error-message"></p>
+				<a onclick="window.location.reload()"><button>Recharger la page&#x202F;?</button></a>
+			</article>
+		</template>
+	</body>
 </html>
