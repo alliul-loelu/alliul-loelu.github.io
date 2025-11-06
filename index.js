@@ -11,7 +11,7 @@ function displayError(userMessage, consoleMessage) {
 	document.body.replaceChildren(errorMessagePanel);
 }
 
-const socket = new WebSocket('ws://[::1]:8765');
+const socket = new WebSocket('ws://10.10.10.10:8765');
 // Chromium ne déclenche jamais l’évenement "error" si aucune machine n’a l’adresse IP. Le code suivant émule le comportement de Firefox, au bout d’une seconde sans que la connection ne soit établie.
 const timeout = setTimeout(() => {
 	socket.dispatchEvent(new Event('error'));
