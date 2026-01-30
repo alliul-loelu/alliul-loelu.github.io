@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>MédicIA</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="MédicIA">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="stylesheet" href="css/bamboo.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <script src="js/commonmark-0.31.2.min.js" defer></script>
+    <script src="js/common.js" defer></script>
+    <script src="js/attachmentManagement.js" defer></script>
+    <script src="js/preferencesManagement.js" defer></script>
+    <script src="js/db.js" defer></script>
+    <script src="js/ia.js" defer></script>
+</head>
+
+<body>
+    <dialog id="settingsDialog">
+        <form method="dialog">
+            <label for="apiKey">Clef d’API :</label>
+            <input id="apiKey" type="text" autofocus autocorrect="off" spellcheck="false" required>
+            <button id="settingsCloseButton" type="submit">Enregistrer</button>
+        </form>
+    </dialog>
+    <dialog id="attachmentViewer" closedby="any">
+        <iframe></iframe>
+    </dialog>
+    <button id="settingsOpenButton" title="Ouvrir les paramètres">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 155">
+            <path fill="currentColor"
+                d="M73.47 1.74c-1.597.11-3.15.357-4.72.536h-.106L64.89 22.762c-6.119 1.394-11.875 3.758-17.054 6.972l-16.85-12.12c-4.552 3.534-8.694 7.656-12.334 12.12l11.691 17.054a56.5 56.5 0 0 0-7.722 18.126v.107L2.242 68.239c-.373 3.043-.536 6.188-.536 9.331 0 2.572.07 5.11.321 7.615l20.38 3.647c1.449 7.077 4.202 13.686 8.044 19.52l-12.12 16.626c3.47 4.31 7.478 8.233 11.798 11.69l17.16-11.797a55.4 55.4 0 0 0 19.95 7.83l3.218 20.272c2.287.208 4.632.214 6.972.214 3.304 0 6.46-.125 9.653-.536l3.862-20.701c6.89-1.715 13.363-4.69 18.984-8.688l16.517 12.013a77 77 0 0 0 11.584-12.335l-12.013-17.376c3.253-5.618 5.507-11.818 6.65-18.448l20.271-3.218c.179-2.115.213-4.167.213-6.328 0-3.755-.436-7.438-.965-11.047l-20.593-3.754c-1.614-5.959-4.262-11.519-7.615-16.518l12.12-16.625c-3.757-4.594-8.043-8.838-12.763-12.442L105.85 29.197c-5.025-2.972-10.432-5.252-16.303-6.542L86.33 2.275a76 76 0 0 0-8.902-.536c-.817 0-1.657-.024-2.467 0-.395.013-.786-.024-1.18 0-.106.007-.216-.007-.322 0zm2.789 52.127c.392-.021.783 0 1.18 0 12.696 0 23.06 10.364 23.06 23.06S90.135 99.88 77.439 99.88 54.486 89.623 54.486 76.927c0-12.299 9.626-22.444 21.773-23.06z" />
+        </svg>
+    </button>
+    <img id="logo" src="img/logo_300x300.png" alt="MédicIA">
+    <form id="form">
+        <details>
+            <summary>Déroulement d’une séance</summary>
+            <textarea id="sessionPlanning"
+                placeholder="Décrivez le déroulement d’une séance type avec un patient : diagnostic (20 minutes), exercices (20 minutes)…">
+1. Exercices (20 minutes)
+2. Thérapie manuelle (20 minutes)
+3. Appareillage (20 minutes)
+</textarea>
+        </details>
+        <details>
+            <summary>Équipements et techniques à disposition</summary>
+            <textarea id="availableTools" placeholder="Haltères de 1 kg, physiothérapie de Cyriax, stéthoscope…">
+- Haltères de 1 kg, 1,5 kg, 2 kg, 3 kg et 5 kg
+- Élastiques souples, moyens et durs
+- Ballons de 90 cm, 75 cm et 40 cm de diamètre
+- Un BOSU
+- Haltères de 4 kg, 6 kg et 8 kg
+- Vélo statique
+- Vélo elliptique
+- Tapis de marche
+- Lumières de réaction
+- Pressothérapie
+- TENS
+- Ultrasons
+- Infrarouges
+- Ondes de choc
+- Tecarthérapie
+- Électrolyse percutanée intratissulaire (EPI) pour le traitement des tendinites
+- Ponction sèche pour le traitement musculaire
+- Neuromodulation percutanée pour le travail du système nerveux périphérique
+- Massage
+- Étirements passifs, étirements post-isométriques, auto-étirements
+- Cyriax
+- Mobilisation neurale
+- Flushing
+</textarea>
+        </details>
+        <details>
+            <summary>Spécialité médicale</summary>
+            <textarea id="medicalSpecialty" placeholder="Quelle est votre spécialité ?">
+- Rééducation périnéale urinaire chez l’homme et la femme
+- Rééducation post-partum
+- Rééducation anorectale
+</textarea>
+        </details>
+        <output id="output"></output>
+        <label for="prompt">Prompt :</label>
+        <textarea id="prompt" required autofocus></textarea>
+        <div id="attachments-container"></div>
+        <input id="attachmentsInput" type="file" multiple capture="environment"
+            accept="application/pdf,image/png,image/jpeg,image/webp,image/gif">
+        <div id="formButtons">
+            <button id="newSessionButton" type="button">Nouvelle séance</button>
+            <button id="submitButton" type="submit">Envoyer</button>
+        </div>
+    </form>
+    <button id="scrollDownButton" title="Défiler en bas" type="button"
+        onclick="window.scrollTo(0, document.body.scrollHeight)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+        </svg>
+    </button>
+
+    <template id="attachment-template">
+        <style>
+            #container {
+                height: fit-content;
+                position: relative;
+            }
+
+            ::slotted(img) {
+                display: block;
+                aspect-ratio: 1;
+                object-fit: contain;
+            }
+
+            #close-button {
+                display: none;
+                z-index: 1;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                background-color: var(--b-bg-1);
+                padding: .5rem;
+                border-radius: 100%;
+            }
+
+            div.hover #close-button,
+            svg {
+                display: block;
+            }
+        </style>
+        <div id="container">
+            <slot name="attachment-image"></slot>
+            <div id="close-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                    <path fill="currentColor" fill-rule="evenodd"
+                        d="M.293.305a1 1 0 0 1 1.414 0L7 5.598 12.293.305a1 1 0 1 1 1.414 1.414L8.414 7.012l5.293 5.293a1 1 0 0 1-1.414 1.414L7 8.426 1.707 13.72a1 1 0 0 1-1.414-1.414l5.293-5.293L.293 1.72a1 1 0 0 1 0-1.414"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
+    </template>
+
+    <!-- Pour pouvoir choisir la couleur de l'icône depuis le document (currentColor), il n'est pas possible d'utiliser un élément <img>. Nous sommes obligés de dupliquer l'élément <svg> à chaque fois. -->
+    <template id="exportButton-template">
+        <button class="export-button" type="button" title="Télécharger la réponse en PDF">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="currentColor">
+                <path d="M25.462 19.105v6.848H4.515v-6.848H.489v8.861c0 1.111.9 2.012 2.016 2.012h24.967c1.115 0 2.016-.9 2.016-2.012v-8.861h-4.026zM14.62 18.426l-5.764-6.965s-.877-.828.074-.828h3.248V.494S12.049 0 12.793 0h4.572c.536 0 .524.416.524.416V10.424h2.998c1.154 0 .285.867.285.867s-4.904 6.51-5.588 7.193c-.492.495-.964-.058-.964-.058z"/>
+            </svg>
+        </button>
+    </template>
+</body>
+
+</html>

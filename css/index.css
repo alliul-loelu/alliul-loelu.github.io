@@ -1,0 +1,188 @@
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    position: relative;
+    padding: 1rem;
+}
+
+#settingsDialog {
+    background-color: var(--b-bg-1);
+    border-radius: 20px;
+}
+
+#attachmentViewer {
+    height: 90vh;
+    width: 90vw;
+    overflow: hidden;
+}
+
+#attachmentViewer > iframe {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#settingsDialog:focus, #attachmentViewer:focus {
+    box-shadow: none;
+}
+
+#settingsOpenButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+#settingsOpenButton>svg {
+    width: 2ch;
+}
+
+#settingsCloseButton {
+    margin-top: .75rem;
+}
+
+#logo {
+    display: block;
+    max-width: 80%;
+    width: 16rem;
+    margin: auto;
+    margin-bottom: 1.5rem;
+}
+
+details {
+    margin-bottom: .75rem;
+    padding: .5rem;
+}
+
+details[open]>summary {
+    margin-bottom: .5rem;
+}
+
+summary {
+    padding: 0 .5rem;
+}
+
+details>textarea {
+    background-color: var(--b-bg-1);
+}
+
+output {
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.message>p:last-child {
+    margin-bottom: 0;
+}
+
+.question {
+    align-self: end;
+    background-color: light-dark(lightblue, darkcyan);
+    border-radius: 1rem;
+    border-bottom-right-radius: 0;
+    max-width: 80%;
+}
+
+.attachments {
+    margin-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.attachments > img {
+    display: block;
+    max-height: 5rem;
+}
+
+.answer {
+    max-width: 100%;
+}
+
+/* https://css-loaders.com/dots/ */
+.answer > div:empty {
+    width: 2rem;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, var(--b-txt) 90%, #0000);
+    background:
+        var(--_g) 0% 50%,
+        var(--_g) 50% 50%,
+        var(--_g) 100% 50%;
+    background-size: calc(100%/3) 50%;
+    animation: l3 1s infinite linear;
+}
+
+.answer > div:empty + button {
+    display: none;
+}
+
+.answer p:last-child {
+	margin-bottom: .5rem;
+}
+
+@keyframes l3 {
+    20% {
+        background-position: 0% 0%, 50% 50%, 100% 50%
+    }
+
+    40% {
+        background-position: 0% 100%, 50% 0%, 100% 50%
+    }
+
+    60% {
+        background-position: 0% 50%, 50% 100%, 100% 0%
+    }
+
+    80% {
+        background-position: 0% 50%, 50% 50%, 100% 100%
+    }
+}
+
+.export-button {
+	width: 1.8rem;
+	aspect-ratio: 1;
+	background-color: transparent;
+	color: inherit;
+	padding: .3rem;
+}
+
+#attachments-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--b-bg-2);
+    margin: .5rem 0;
+}
+
+#attachments-container>file-attachment {
+    width: 17%;
+    margin: .5rem;
+}
+
+#attachmentsInput {
+    width: 100%;
+}
+
+#formButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .75rem;
+}
+
+#scrollDownButton {
+    visibility: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin: auto;
+    border-radius: 100%;
+    aspect-ratio: 1;
+    margin-bottom: .5rem;
+}
